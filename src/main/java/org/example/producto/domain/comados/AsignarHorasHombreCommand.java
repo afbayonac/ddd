@@ -2,8 +2,6 @@ package org.example.producto.domain.comados;
 
 import org.example.producto.generic.Command;
 
-import java.awt.event.ComponentAdapter;
-
 public class AsignarHorasHombreCommand extends Command {
     private String productoId;
     private Integer horasHombre;

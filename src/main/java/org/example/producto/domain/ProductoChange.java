@@ -1,13 +1,9 @@
 package org.example.producto.domain;
 
-import org.example.producto.domain.comados.RechazarPruebaViabilidadCommand;
 import org.example.producto.domain.eventos.*;
-import org.example.producto.domain.values.ConceptoId;
 import org.example.producto.domain.values.EstadoProducto;
 import org.example.producto.generic.EventChange;
 
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Optional;
 
 public class ProductoChange extends EventChange {

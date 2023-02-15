@@ -1,6 +1,5 @@
 package org.example.producto.domain.comados;
 
-import org.example.producto.domain.values.Descripcion;
 import org.example.producto.generic.Command;
 
 public class AprobarPruebaViabilidadCommand extends Command {

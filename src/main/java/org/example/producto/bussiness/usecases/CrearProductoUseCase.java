@@ -26,6 +26,7 @@ public class CrearProductoUseCase implements UseCaseForCommand {
                 AuthorId.of(crearProducto.getAuthor()),
                 new NombreProducto(crearProducto.getName(), crearProducto.getVersion())
         );
+
         return producto
                 .getUncommittedChanges()
                 .stream()

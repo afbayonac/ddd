@@ -1,8 +1,6 @@
 package org.example.producto.domain.eventos;
 
-import org.example.producto.domain.values.AuthorId;
 import org.example.producto.domain.values.ConceptoId;
-import org.example.producto.domain.values.Descripcion;
 import org.example.producto.domain.values.PruebaViabilidadId;
 import org.example.producto.generic.DomainEvent;
 

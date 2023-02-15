@@ -3,7 +3,6 @@ package org.example.producto.domain;
 import org.example.producto.domain.values.*;
 import org.example.producto.generic.Entity;
 
-import java.time.Instant;
 import java.util.*;
 
 public class Concepto extends Entity<ConceptoId> {
