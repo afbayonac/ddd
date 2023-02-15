@@ -3,9 +3,8 @@ package org.example.producto.bussiness.usecases;
 import org.example.producto.bussiness.gateways.DomainEventRepository;
 import org.example.producto.bussiness.generic.UseCaseForCommand;
 import org.example.producto.domain.Producto;
-import org.example.producto.domain.comados.CrearProductoCommand;
-import org.example.producto.domain.values.AuthorId;
-import org.example.producto.domain.values.NombreProducto;
+import org.example.producto.domain.comados.AsignarPrecioCommand;
+import org.example.producto.domain.values.Precio;
 import org.example.producto.domain.values.ProductoId;
 import org.example.producto.generic.Command;
 import org.example.producto.generic.DomainEvent;
@@ -13,19 +12,19 @@ import org.example.producto.generic.DomainEvent;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CrearProductoUseCase implements UseCaseForCommand {
+public class AsignarPrecioUseCase implements UseCaseForCommand {
     private final DomainEventRepository repository;
-    public CrearProductoUseCase(DomainEventRepository repository) {
+    public AsignarPrecioUseCase(DomainEventRepository repository) {
         this.repository = repository;
     }
     @Override
     public List<DomainEvent> apply(Command command) {
-        CrearProductoCommand crearProducto = (CrearProductoCommand) command;
-        Producto producto = new Producto(
-                new ProductoId(),
-                AuthorId.of(crearProducto.getAuthor()),
-                new NombreProducto(crearProducto.getName(), crearProducto.getVersion())
-        );
+        AsignarPrecioCommand asignarPrecioCommand = (AsignarPrecioCommand) command;
+
+        List<DomainEvent> events = repository.findById(asignarPrecioCommand.getProductoId());
+        Producto producto = Producto.from(ProductoId.of(asignarPrecioCommand.getProductoId()), events);
+        producto.asignarPrecio(new Precio(asignarPrecioCommand.getPrecio()));
+
         return producto
                 .getUncommittedChanges()
                 .stream()

@@ -34,20 +34,24 @@ public class Concepto extends Entity<ConceptoId> {
     }
 
     public void aprobarPruebaViabilidad(PruebaViabilidadId pruebaViabilidadId) {
-        for (Iterator<PruebaViabilidad> it = pruebasViabilidad.iterator(); it.hasNext(); ) {
-            PruebaViabilidad pruebaViabilidad = it.next();
-            if (pruebaViabilidad.identity() == pruebaViabilidadId) {
-                pruebaViabilidad.aprobar();
-            }
+        Optional<PruebaViabilidad> result = pruebasViabilidad
+                .stream()
+                .filter(c -> c.identity().equals(pruebaViabilidadId))
+                .findFirst();
+
+        if (result.isPresent()) {
+            result.get().aprobar();
         }
     }
 
     public void rechazarPruebaViabilidad(PruebaViabilidadId pruebaViabilidadId) {
-        for (Iterator<PruebaViabilidad> it = pruebasViabilidad.iterator(); it.hasNext(); ) {
-            PruebaViabilidad pruebaViabilidad = it.next();
-            if (pruebaViabilidad.identity() == pruebaViabilidadId) {
-                pruebaViabilidad.rechazar();
-            }
+        Optional<PruebaViabilidad> result = pruebasViabilidad
+                .stream()
+                .filter(c -> c.identity().equals(pruebaViabilidadId))
+                .findFirst();
+
+        if (result.isPresent()) {
+            result.get().rechazar();
         }
     }
 }

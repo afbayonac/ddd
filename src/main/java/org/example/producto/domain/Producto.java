@@ -3,7 +3,9 @@ package org.example.producto.domain;
 import org.example.producto.domain.eventos.*;
 import org.example.producto.domain.values.*;
 import org.example.producto.generic.AggregateRoot;
+import org.example.producto.generic.DomainEvent;
 
+import java.util.List;
 import java.util.Set;
 
 public class Producto extends AggregateRoot<ProductoId> {
@@ -24,6 +26,11 @@ public class Producto extends AggregateRoot<ProductoId> {
         appendChange(new ProductoCreado(authorId, nombre));
     }
 
+    private Producto(ProductoId productoId){
+        super(productoId);
+        subscribe(new ProductoChange(this));
+    }
+
     public void agregarHorasHombre(HorasHombre horasHombre) {
         appendChange(new HorasHombreAsignado(horasHombre));
     }
@@ -32,7 +39,7 @@ public class Producto extends AggregateRoot<ProductoId> {
         appendChange(new PrecioAsignado(precio));
     }
 
-    public void crearPruebaConcepto(ConceptoId conceptoId, Receta receta) {
+    public void crearConcepto(ConceptoId conceptoId, Receta receta) {
         appendChange(new ConceptoCreado(conceptoId, receta));
     }
 
@@ -71,6 +78,12 @@ public class Producto extends AggregateRoot<ProductoId> {
         appendChange(new PruebaViabilidadRechazado(conceptoId, pruebaViabilidadId));
     }
 
+
+    public static Producto from(ProductoId productoId, List<DomainEvent> events){
+        Producto producto = new Producto(productoId);
+        events.forEach(event -> producto.applyEvent(event));
+        return producto;
+    }
 
     private void actualizarEstado() {}
 }

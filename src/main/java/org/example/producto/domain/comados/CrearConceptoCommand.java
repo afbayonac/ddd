@@ -4,7 +4,6 @@ import org.example.producto.generic.Command;
 
 public class CrearConceptoCommand extends Command {
     private String productoId;
-    private String pruebaConceptoId;
     private String receta;
 
     public CrearConceptoCommand() {}
@@ -15,14 +14,6 @@ public class CrearConceptoCommand extends Command {
 
     public void setProductoId(String productoId) {
         this.productoId = productoId;
-    }
-
-    public String getPruebaConceptoId() {
-        return pruebaConceptoId;
-    }
-
-    public void setPruebaConceptoId(String pruebaConceptoId) {
-        this.pruebaConceptoId = pruebaConceptoId;
     }
 
     public String getReceta() {

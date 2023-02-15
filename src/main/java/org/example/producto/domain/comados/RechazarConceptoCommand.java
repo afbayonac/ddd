@@ -1,6 +1,8 @@
 package org.example.producto.domain.comados;
 
-public class RechazarConceptoCommand {
+import org.example.producto.generic.Command;
+
+public class RechazarConceptoCommand extends Command {
     private String productoId;
     private String pruebaConceptoId;
 

@@ -1,22 +1,24 @@
 package org.example.producto.domain.comados;
 
-public class AsignarPrecioCommand {
-    private String porductoId;
+import org.example.producto.generic.Command;
+
+public class AsignarPrecioCommand extends Command {
+    private String productoId;
     private Integer precio;
 
-    public String getPorductoId() {
-        return porductoId;
+    public String getProductoId() {
+        return productoId;
     }
 
-    public void setPorductoId(String porductoId) {
-        this.porductoId = porductoId;
+    public void setProductoId(String productoId) {
+        this.productoId = productoId;
     }
 
-    public Integer getHorasHombre() {
+    public Integer getPrecio() {
         return precio;
     }
 
-    public void setHorasHombre(Integer horasHombre) {
+    public void setPrecio(Integer precio) {
         this.precio = precio;
     }
 }

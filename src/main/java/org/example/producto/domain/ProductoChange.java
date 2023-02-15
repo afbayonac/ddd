@@ -8,6 +8,7 @@ import org.example.producto.generic.EventChange;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Optional;
 
 public class ProductoChange extends EventChange {
     public ProductoChange(Producto producto) {
@@ -31,61 +32,81 @@ public class ProductoChange extends EventChange {
         });
 
         apply((ResultadoConceptoAsignado event) -> {
-            for (Iterator<Concepto> it = producto.conceptos.iterator(); it.hasNext(); ) {
-                Concepto concepto = it.next();
-                if (concepto.identity().equals(event.getConceptoId())) {
-                    concepto.resultado = event.getResultado();
-                }
+            Optional<Concepto> result = producto
+                    .conceptos
+                    .stream()
+                    .filter(c -> c.identity().equals(event.getConceptoId()))
+                    .findFirst();
+
+            if (result.isPresent()) {
+                result.get().resultado = event.getResultado();
             }
         });
 
         apply((ConceptoAprobado event) -> {
-            for (Iterator<Concepto> it = producto.conceptos.iterator(); it.hasNext(); ) {
-                Concepto concepto = it.next();
-                if (concepto.identity().equals(event.getConceptoId())) {
-                    concepto.aprobar();
-                }
+            Optional<Concepto> result = producto
+                    .conceptos
+                    .stream()
+                    .filter(c -> c.identity().equals(event.getConceptoId()))
+                    .findFirst();
+
+            if (result.isPresent()) {
+                result.get().aprobar();
             }
         });
 
         apply((ConceptoRechazado event) -> {
-            for (Iterator<Concepto> it = producto.conceptos.iterator(); it.hasNext(); ) {
-                Concepto concepto = it.next();
-                if (concepto.identity().equals(event.getConceptoId())) {
-                    concepto.rechazar();
-                }
+            Optional<Concepto> result = producto
+                    .conceptos
+                    .stream()
+                    .filter(c -> c.identity().equals(event.getConceptoId()))
+                    .findFirst();
+
+            if (result.isPresent()) {
+                result.get().rechazar();
             }
         });
 
         apply((PruebaViabilidadCreado event) -> {
-            for (Iterator<Concepto> it = producto.conceptos.iterator(); it.hasNext(); ) {
-                Concepto concepto = it.next();
-                if (concepto.identity().equals(event.getConceptoId())) {
-                    var pruebaViabilidad = new PruebaViabilidad(
-                            event.getPruebaViabilidadId(),
-                            event.getAuthorId(),
-                            event.getDescripcion()
-                    );
-                    concepto.pruebasViabilidad.add(pruebaViabilidad);
-                }
+            Optional<Concepto> result = producto
+                    .conceptos
+                    .stream()
+                    .filter(c -> c.identity().equals(event.getConceptoId()))
+                    .findFirst();
+
+            if (result.isPresent()) {
+                var pruebaViabilidad = new PruebaViabilidad(
+                        event.getPruebaViabilidadId(),
+                        event.getAuthorId(),
+                        event.getDescripcion()
+                );
+
+                result.get().pruebasViabilidad.add(pruebaViabilidad);
             }
         });
 
         apply((PruebaViabilidadAprobado event) -> {
-            for (Iterator<Concepto> it = producto.conceptos.iterator(); it.hasNext(); ) {
-                Concepto concepto = it.next();
-                if (concepto.identity().equals(event.getConceptoId())) {
-                    concepto.aprobarPruebaViabilidad(event.getPruebaViabilidadId());
-                }
+            Optional<Concepto> result = producto
+                    .conceptos
+                    .stream()
+                    .filter(c -> c.identity().equals(event.getConceptoId()))
+                    .findFirst();
+
+            if (result.isPresent()) {
+                result.get().aprobarPruebaViabilidad(event.getPruebaViabilidadId());
             }
+
         });
 
         apply((PruebaViabilidadRechazado event) -> {
-            for (Iterator<Concepto> it = producto.conceptos.iterator(); it.hasNext(); ) {
-                Concepto concepto = it.next();
-                if (concepto.identity().equals(event.getConceptoId())) {
-                    concepto.rechazarPruebaViabilidad(event.getPruebaViabilidadId());
-                }
+            Optional<Concepto> result = producto
+                    .conceptos
+                    .stream()
+                    .filter(c -> c.identity().equals(event.getConceptoId()))
+                    .findFirst();
+
+            if (result.isPresent()) {
+                result.get().rechazarPruebaViabilidad(event.getPruebaViabilidadId());
             }
         });
     }
