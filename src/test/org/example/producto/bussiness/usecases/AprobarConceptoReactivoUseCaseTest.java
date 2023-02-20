@@ -2,10 +2,8 @@ package org.example.producto.bussiness.usecases;
 
 import org.example.producto.bussiness.gateways.DomainEventReactiveRepository;
 import org.example.producto.domain.comados.AprobarConceptoCommand;
-import org.example.producto.domain.comados.AsignarPrecioCommand;
 import org.example.producto.domain.eventos.ConceptoAprobado;
 import org.example.producto.domain.eventos.ConceptoCreado;
-import org.example.producto.domain.eventos.PrecioAsignado;
 import org.example.producto.domain.eventos.ProductoCreado;
 import org.example.producto.domain.values.*;
 import org.example.producto.generic.DomainEvent;

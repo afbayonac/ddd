@@ -1,7 +1,6 @@
 package org.example.producto.bussiness.usecases;
 
 import org.example.producto.bussiness.gateways.DomainEventReactiveRepository;
-import org.example.producto.bussiness.gateways.DomainEventRepository;
 import org.example.producto.domain.comados.CrearProductoCommand;
 import org.example.producto.domain.eventos.ProductoCreado;
 import org.example.producto.generic.DomainEvent;
@@ -16,8 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
-
-import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class CrearProductoReactivoUseCaseTest {

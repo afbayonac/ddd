@@ -1,9 +1,7 @@
 package org.example.producto.bussiness.usecases;
 
 import org.example.producto.bussiness.gateways.DomainEventRepository;
-import org.example.producto.domain.Producto;
 import org.example.producto.domain.comados.CrearConceptoCommand;
-import org.example.producto.domain.comados.CrearProductoCommand;
 import org.example.producto.domain.eventos.ConceptoCreado;
 import org.example.producto.domain.eventos.ProductoCreado;
 import org.example.producto.domain.values.AuthorId;
@@ -21,7 +19,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 class CrearConceptoUseCaseTest {
     @Mock
