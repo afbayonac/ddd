@@ -23,7 +23,7 @@ public class CrearProductoUseCase implements UseCaseForCommand {
         CrearProductoCommand crearProducto = (CrearProductoCommand) command;
         Producto producto = new Producto(
                 new ProductoId(),
-                AuthorId.of(crearProducto.getAuthor()),
+                AuthorId.of(crearProducto.getAuthorId()),
                 new NombreProducto(crearProducto.getName(), crearProducto.getVersion())
         );
 

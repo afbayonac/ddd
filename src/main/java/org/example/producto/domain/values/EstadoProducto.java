@@ -5,7 +5,7 @@ import org.example.producto.generic.ValueObject;
 public class EstadoProducto implements ValueObject<String> {
     private enum Estado {
         CONCEPTO,
-        PREPRODUCCION,
+        PRE_PRODUCTIVO,
         PRODUCTIVO,
         CERRADO,
         CANCELADO
@@ -21,10 +21,10 @@ public class EstadoProducto implements ValueObject<String> {
     };
 
     public EstadoProducto HabilitarPruebas() {
-       return new EstadoProducto(Estado.PREPRODUCCION);
+       return new EstadoProducto(Estado.PRE_PRODUCTIVO);
     }
 
-    public EstadoProducto HabilitarProduccion() {
+    public EstadoProducto HabilitarProductivo() {
         return new EstadoProducto(Estado.PRODUCTIVO);
     }
 

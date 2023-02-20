@@ -6,6 +6,11 @@ public class AprobarConceptoCommand extends Command {
     private String productoId;
     private String pruebaConceptoId;
 
+    public AprobarConceptoCommand(String productoId, String pruebaConceptoId) {
+        this.productoId = productoId;
+        this.pruebaConceptoId = pruebaConceptoId;
+    }
+
     public AprobarConceptoCommand() {}
 
     public String getProductoId() {

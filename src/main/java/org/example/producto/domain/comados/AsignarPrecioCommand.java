@@ -6,6 +6,13 @@ public class AsignarPrecioCommand extends Command {
     private String productoId;
     private Integer precio;
 
+    public AsignarPrecioCommand() {}
+
+    public AsignarPrecioCommand(String productoId, Integer precio) {
+        this.productoId = productoId;
+        this.precio = precio;
+    }
+
     public String getProductoId() {
         return productoId;
     }

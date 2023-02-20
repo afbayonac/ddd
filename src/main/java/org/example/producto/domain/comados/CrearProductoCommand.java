@@ -3,27 +3,24 @@ package org.example.producto.domain.comados;
 import org.example.producto.generic.Command;
 
 public class CrearProductoCommand extends Command {
-    private String uuid;
-    private String author;
+    private String authorId;
     private String name;
     private String version;
 
     public CrearProductoCommand() {}
 
-    public String getUuid() {
-        return uuid;
+    public CrearProductoCommand(String author, String name, String version) {
+        this.authorId = author;
+        this.name = name;
+        this.version = version;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public String getAuthorId() {
+        return authorId;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
     }
 
     public String getName() {

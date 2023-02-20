@@ -4,6 +4,7 @@ import org.example.producto.domain.eventos.*;
 import org.example.producto.domain.values.EstadoProducto;
 import org.example.producto.generic.EventChange;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 public class ProductoChange extends EventChange {
@@ -12,6 +13,7 @@ public class ProductoChange extends EventChange {
             producto.authorId = event.getAuthorId();
             producto.nombre = event.getNombre();
             producto.estado = new EstadoProducto();
+            producto.conceptos = new HashSet<>();
         });
 
         apply((HorasHombreAsignado event) -> {

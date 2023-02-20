@@ -8,6 +8,11 @@ public class CrearConceptoCommand extends Command {
 
     public CrearConceptoCommand() {}
 
+    public CrearConceptoCommand(String productoId, String receta) {
+        this.productoId = productoId;
+        this.receta = receta;
+    }
+
     public String getProductoId() {
         return productoId;
     }
