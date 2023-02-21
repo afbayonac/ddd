@@ -2,10 +2,10 @@ package org.example.producto.bussiness.usecases;
 
 import org.example.producto.bussiness.gateways.DomainEventReactiveRepository;
 import org.example.producto.bussiness.gateways.EventBus;
-import org.example.producto.domain.comados.AprobarConceptoCommand;
 import org.example.producto.domain.eventos.ConceptoAprobado;
 import org.example.producto.domain.eventos.ConceptoCreado;
 import org.example.producto.domain.eventos.ProductoCreado;
+import org.example.producto.domain.eventos.ProductoPreProductivo;
 import org.example.producto.domain.values.*;
 import org.example.producto.generic.DomainEvent;
 import org.junit.jupiter.api.Assertions;
@@ -21,17 +21,17 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 @ExtendWith(MockitoExtension.class)
-class AprobarConceptoReactivoUseCaseTest {
+class ProductoPreProductivoReactivoEventUseCaseTest {
     @Mock
     private DomainEventReactiveRepository repository;
     @Mock
     private EventBus eventBus;
 
-    private AprobarConceptoReactivoUseCase useCase;
+    private ProductoPreProductivoReactivoEventUseCase useCase;
 
     @BeforeEach
     void setUp() {
-        useCase = new AprobarConceptoReactivoUseCase(repository, eventBus);
+        useCase = new ProductoPreProductivoReactivoEventUseCase(repository, eventBus);
     }
 
     @Test
@@ -53,18 +53,17 @@ class AprobarConceptoReactivoUseCaseTest {
                 new Receta(RECETA)
         );
 
-
-        AprobarConceptoCommand command = new AprobarConceptoCommand(
-                PRODUCTO_ID.value(),
-                CONCEPTO_ID.value()
+        ConceptoAprobado conceptoAprobado = new ConceptoAprobado(
+                CONCEPTO_ID
         );
+        conceptoAprobado.setAggregateRootId(PRODUCTO_ID.value());
 
         Mockito
                 .when(repository.findById(PRODUCTO_ID.value()))
-                .thenReturn(Flux.just(productoCreado, conceptoCreado));
+                .thenReturn(Flux.just(productoCreado, conceptoCreado, conceptoAprobado));
 
         Mockito
-                .when(repository.saveEvent(ArgumentMatchers.any(ConceptoAprobado.class)))
+                .when(repository.saveEvent(ArgumentMatchers.any(ProductoPreProductivo.class)))
                 .thenAnswer(interceptor -> Mono.just(interceptor.getArgument(0)));
 
         Mockito
@@ -72,13 +71,13 @@ class AprobarConceptoReactivoUseCaseTest {
                 .when(eventBus)
                 .publish(ArgumentMatchers.any(DomainEvent.class));
 
-        Flux<DomainEvent> result = useCase.apply(Mono.just(command));
+        Flux<DomainEvent> result = useCase.apply(Mono.just(conceptoAprobado));
 
         StepVerifier
                 .create(result)
                 .assertNext(domainEvent -> {
-                    ConceptoAprobado conceptoAprobado = (ConceptoAprobado) domainEvent;
-                    Assertions.assertEquals(CONCEPTO_ID.value(), conceptoAprobado.getConceptoId().value());
+                    ProductoPreProductivo productoPreProductivo = (ProductoPreProductivo) domainEvent;
+                    Assertions.assertEquals(PRODUCTO_ID.value(), productoPreProductivo.aggregateRootId());
                 })
                 .verifyComplete();
     }

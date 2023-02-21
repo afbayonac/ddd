@@ -1,6 +1,7 @@
 package org.example.producto.bussiness.usecases;
 
 import org.example.producto.bussiness.gateways.DomainEventRepository;
+import org.example.producto.bussiness.gateways.EventBus;
 import org.example.producto.bussiness.generic.UseCaseForCommand;
 import org.example.producto.domain.Producto;
 import org.example.producto.domain.comados.AprobarConceptoCommand;
@@ -14,8 +15,11 @@ import java.util.stream.Collectors;
 
 public class AprobarConceptoUseCase implements UseCaseForCommand {
     private final DomainEventRepository repository;
-    public AprobarConceptoUseCase(DomainEventRepository repository) {
+    private final EventBus eventBus;
+
+    public AprobarConceptoUseCase(DomainEventRepository repository, EventBus eventBus) {
         this.repository = repository;
+        this.eventBus = eventBus;
     }
     @Override
     public List<DomainEvent> apply(Command command) {
@@ -31,6 +35,10 @@ public class AprobarConceptoUseCase implements UseCaseForCommand {
                 .getUncommittedChanges()
                 .stream()
                 .map(event -> repository.saveEvent(event))
+                .map(event -> {
+                    eventBus.publish(event);
+                    return event;
+                })
                 .collect(Collectors.toList());
     }
 }

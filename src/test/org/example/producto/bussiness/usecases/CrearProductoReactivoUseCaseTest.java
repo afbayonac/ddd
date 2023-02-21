@@ -20,7 +20,6 @@ import reactor.test.StepVerifier;
 class CrearProductoReactivoUseCaseTest {
     @Mock
     private DomainEventReactiveRepository repository;
-
     private CrearProductoReactivoUseCase useCase;
 
     @BeforeEach

@@ -85,5 +85,7 @@ public class Producto extends AggregateRoot<ProductoId> {
         return producto;
     }
 
-    private void actualizarEstado() {}
+    public void actualizarEstadoPreProductivo() {
+        appendChange(new ProductoPreProductivo());
+    }
 }

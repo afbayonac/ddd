@@ -2,10 +2,10 @@ package org.example.producto.bussiness.usecases;
 
 import org.example.producto.bussiness.gateways.DomainEventRepository;
 import org.example.producto.bussiness.gateways.EventBus;
-import org.example.producto.domain.comados.AprobarConceptoCommand;
 import org.example.producto.domain.eventos.ConceptoAprobado;
 import org.example.producto.domain.eventos.ConceptoCreado;
 import org.example.producto.domain.eventos.ProductoCreado;
+import org.example.producto.domain.eventos.ProductoPreProductivo;
 import org.example.producto.domain.values.*;
 import org.example.producto.generic.DomainEvent;
 import org.junit.jupiter.api.Assertions;
@@ -20,18 +20,17 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-class AprobarConceptoUseCaseTest {
+class ProductoPreProductivoEventUseCaseTest {
     @Mock
     private DomainEventRepository repository;
-
     @Mock
     private EventBus eventBus;
 
-    private AprobarConceptoUseCase useCase;
+    private ProductoPreProductivoEventUseCase useCase;
 
     @BeforeEach
     void setUp() {
-        useCase = new AprobarConceptoUseCase(repository, eventBus);
+        useCase = new ProductoPreProductivoEventUseCase(repository, eventBus);
     }
 
     @Test
@@ -53,22 +52,23 @@ class AprobarConceptoUseCaseTest {
                 new Receta(RECETA)
         );
 
-        AprobarConceptoCommand command = new AprobarConceptoCommand(
-                PRODUCTO_ID.value(),
-                CONCEPTO_ID.value()
+        ConceptoAprobado conceptoAprobado = new ConceptoAprobado(
+                CONCEPTO_ID
         );
+
+        conceptoAprobado.setAggregateRootId(PRODUCTO_ID.value());
 
         Mockito
                 .when(repository.findById(PRODUCTO_ID.value()))
-                .thenReturn(List.of(productoCreado, conceptoCreado));
+                .thenReturn(List.of(productoCreado, conceptoCreado, conceptoAprobado));
 
         Mockito
-                .when(repository.saveEvent(ArgumentMatchers.any(ConceptoAprobado.class)))
+                .when(repository.saveEvent(ArgumentMatchers.any(ProductoPreProductivo.class)))
                 .thenAnswer(interceptor -> interceptor.getArgument(0));
 
-        List<DomainEvent> result = useCase.apply(command);
+        List<DomainEvent> result = useCase.apply(conceptoAprobado);
 
-        ConceptoAprobado event = (ConceptoAprobado) result.get(0);
-        Assertions.assertEquals(CONCEPTO_ID, event.getConceptoId());
+        ProductoPreProductivo event = (ProductoPreProductivo) result.get(0);
+        Assertions.assertEquals(PRODUCTO_ID.value(), event.aggregateRootId());
     }
 }
